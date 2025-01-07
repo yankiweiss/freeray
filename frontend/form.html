@@ -53,14 +53,18 @@ data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
 <div class="accordion-body m-3">
 <div class="input-group">
-<input type="text" placeholder="NAME (LAST, FIRST, MIDDLE)" class="form-control" name="fullName" required>
+
+<input type="text" placeholder="NAME (LAST, FIRST, MIDDLE)" class="form-control" name="name" required>
+
 <input type="text" placeholder="TITLE" class="form-control" name="title">
-<input type="text" placeholder="SOCIAL SECURITY NO." class="form-control" name="socailSecurityNumber">
+
+<input type="text" placeholder="SOCIAL SECURITY NO." class="form-control" name="social">
 </div>
 <div class="input-group">
 <input class="col-9 form-control" type="text"
 placeholder="PLACE OF BIRTH (CITY, STATE, COUNTRY)" name="placeOfBirth">
-<input type="text" placeholder="DATE OF BIRTH" class="form-control" name="dateOfBirth">
+
+<input type="date" placeholder="DATE OF BIRTH" class="form-control" name="dateOfBirth">
 </div>
 
 <div class="input-group">
@@ -77,7 +81,7 @@ placeholder="PLACE OF BIRTH (CITY, STATE, COUNTRY)" name="placeOfBirth">
 </div>
 
 <div class="input-group">
-<input class="form-control" type="text" placeholder="EMAIL ADDRESS:" name="emailAdress">
+<input class="form-control" type="email" placeholder="EMAIL ADDRESS:" name="emailAdress">
 <input type="text" placeholder="OFFICE PHONE NO." class="form-control" name="officePhoneNumber">
 </div>
 <input type="text" placeholder="LANGUAGES YOU SPEAK" class="form-control" name="languages">
@@ -1075,32 +1079,50 @@ data-bs-parent="#accordionExample">
 
 
 
+<script>
+  function extractFormValues() {
+// Select the form using the appropriate class or ID
+const form = document.querySelector('.myForm');
 
+// Create FormData object to easily collect form data
+const formData = new FormData(form);
 
+// Log the form data as an object
+const formObject = Object.fromEntries(formData.entries());
+console.log(formObject);
 
+// Optionally, send this data to a backend (e.g., to store it in a database)
+postFormData(formObject);
+}
 
+// Function to POST form data to the backend
+function postFormData(data) {
+fetch('http://localhost:5001/doctor', {  // Use your backend API URL here
+  method: 'POST',
+  headers: {
+      'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data),  // Send the form data as JSON
+})
+.then(response => response.json())
+.then(result => {
+  console.log('Data successfully submitted:', result);
+  alert('Form submitted successfully!');
+})
+.catch(error => {
+  console.error('Error submitting form:', error);
+  alert('Error submitting form data');
+});
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</script>
 
 
 
 
 <script src="index.js"></script>
+
+
 </body>
 
 </html>

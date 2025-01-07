@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+<!-- Bootstrap Bundle JS (includes Popper.js) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+    <br><br>
+
+    <img style="display: block;margin: auto;" class="logo" src="./Images/Screenshot 2024-12-05 155457.png">
+
+    <br><br>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container">
+          
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Status:
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">To Be Reviewed</a></li>
+                  <li><a class="dropdown-item" href="#">Not Active</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </li>
+              
+            </ul>
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+
+    <div id="todos-container"></div>
+
+    
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+  const todosContainer = document.getElementById('todos-container');
+
+  const getTodos = async () => {
+    try {
+      const response = await fetch('http://localhost:5001/doctor');
+      const jsonData = await response.json();
+
+      renderTodos(jsonData);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const renderTodos = (todos) => {
+    todosContainer.innerHTML = `
+      <table class="table mt-5 text-center container">
+        <thead>
+          <tr>
+            <th>Name:</th>
+            <th>Title:</th>
+            <th>Social:</th>
+            <th>Place Of Birth:</th>
+            <th>DOB:</th>
+            <th>Home Adress:</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${todos.map(todo => `
+            <tr>
+              <td>${todo.name}</td>
+              <td>${todo.title}</td>
+              <td>${todo.social}</td>
+              <td>${todo.placeofbirth}</td>
+              <td>${todo.dateofbirth}</td>
+              <td>${todo.homeadress}</td>
+              
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  };
+
+  getTodos();
+});
+
+        </script>
+    
+</body>
+</html>
